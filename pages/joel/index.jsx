@@ -1,16 +1,17 @@
-import { generateFiles } from "../../utils"
+import Results from "../../components/Results"
 
-const Joel = () => {
-  return (
-    <div>Joel</div>
-  )
-}
+import { generateFiles, generateDaysArray } from "../../utils"
+
+const USER = 'joel';
+
+const Joel = ({ days }) => <Results days={days} user={USER} />
 
 export async function getStaticProps(context) {
-  generateFiles('joel')
+  generateFiles(USER)
+  const days = generateDaysArray()
 
   return {
-    props: {},
+    props: { days },
   }
 }
 

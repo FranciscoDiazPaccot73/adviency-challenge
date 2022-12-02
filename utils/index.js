@@ -10,7 +10,7 @@ const templateFile =
   `
 
 export const getFileIfExist = (day, user) => {
-  if (process.env.NODE_ENV === 'development' && !fs.existsSync(`${DIR}${user}/${day}.jsx`)) {
+  if (process.env.NODE_ENV === 'development' && !fs.existsSync(`${DIR}${user}/day${day}.jsx`)) {
     fs.writeFile(`${DIR}${user}/day${day}.jsx`, templateFile, (err) => {
       console.log(err)
     })
