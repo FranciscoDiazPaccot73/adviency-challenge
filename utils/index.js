@@ -1,7 +1,6 @@
 const fs = require('fs')
 
 const CWD = process.cwd();
-
 const DIR = `${CWD}/pages/`
 
 const templateFile = 
