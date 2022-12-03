@@ -1,12 +1,12 @@
 import dynamic from 'next/dynamic';
 
-const Header = dynamic(() => import('../components/Header'), {
-  suspense: true,
-})
-
 import { useEffect, useState } from 'react';
 
 import '../styles/globals.css'
+
+const Header = dynamic(() => import('../components/Header'), {
+  suspense: true,
+})
 
 function MyApp({ Component, pageProps }) {
   const [showHeader, setShowHeader] = useState(false)
