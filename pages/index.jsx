@@ -29,7 +29,7 @@ export default function Home() {
 
         <ul className='flex flex-wrap gap-7 justify-center mt-24'>
           {users.map(({ name, user}) => (
-            <li className='inline-flex flex-shrink-0'>
+            <li key={user} className='inline-flex flex-shrink-0'>
               <a
                 className='text-white visited:text-neutral-400 hover:underline text-center flex flex-col gap-y-2 items-center justify-center w-20'
                 href={`/${name.toLowerCase()}`}

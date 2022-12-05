@@ -1,6 +1,7 @@
 import Results from "../../components/Results"
 
-import { generateFiles, generateDaysArray } from "../../utils"
+import { generateFiles } from "../../utils"
+import { generateDaysArray } from "../../utils/array"
 
 const USER = 'joel';
 

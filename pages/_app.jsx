@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router'
 
 import { useEffect, useState } from 'react';
 
@@ -10,17 +11,25 @@ const Header = dynamic(() => import('../components/Header'), {
 
 function MyApp({ Component, pageProps }) {
   const [showHeader, setShowHeader] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
-    const { pathname } = window.location;
+    const { pathname } = router;
     if (pathname !== '/' && !showHeader) {
       setShowHeader(true)
     }
   }, [])
 
+  const onGoBack = () => {
+    const { pathname } = router;
+    if (pathname === '/fran' || pathname === '/joel') {
+      setShowHeader(false)
+    }
+  }
+
   return (
     <div>
-      {showHeader ? <Header /> : null}
+      {showHeader ? <Header goBack={onGoBack} location={window.location.pathname} /> : null}
       <Component {...pageProps} />
     </div>
   )

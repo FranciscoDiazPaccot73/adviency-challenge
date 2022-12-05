@@ -1,9 +1,22 @@
-const Header = () => {
-  const handleBack = () => window.history.back()
+import { useState, useEffect } from "react"
+import Link from "next/link"
+
+import { getAvailableButtons } from "../utils/header"
+
+const Header = ({ location, goBack }) => {
+  const [hasNext, setNext] = useState(getAvailableButtons('next', location))
+  const [hasPrev, setPrev] = useState(getAvailableButtons('prev', location))
+
+  useEffect(() => {
+    setNext(getAvailableButtons('next', location))
+    setPrev(getAvailableButtons('prev', location))
+  }, [location])
+
+  const getBackUrl = () => location.includes('day') ? `/${hasPrev?.user}` : '/'
 
   return (
-    <header className='h-10 z-10 p-2 mx-auto absolute left-4 w-1/2 md:left-1/2 md:-translate-x-1/2'>
-      <div onClick={handleBack} className="cursor-pointer inline-block">
+    <header className='h-10 flex justify-between z-10 p-2 mx-auto absolute left-4 w-1/2 md:left-1/2 md:-translate-x-1/2'>
+      <Link onClick={goBack} href={getBackUrl()} className="cursor-pointer inline-block">
         <div className='flex gap-2'>
           <svg viewBox="0 0 320 512" fill='#fff' height={24} width={24}>
             <path
@@ -12,7 +25,13 @@ const Header = () => {
           </svg>
           <span>Back</span>
         </div>
-      </div>
+      </Link>
+      {hasPrev ? (
+        <div className="flex ml-5 gap-6 md:gap-10">
+          {hasPrev?.disabled ? <span className="text-gray-400">Anterior</span> : <Link href={`/${hasPrev?.user}/day${hasPrev?.day}`}>Anterior</Link>}
+          {hasNext?.disabled ? <span className="text-gray-400">Siguiente</span> : <Link href={`/${hasNext?.user}/day${hasNext?.day}`}>Siguiente</Link>}
+        </div>
+      ) : null }
     </header>
   )
 }
