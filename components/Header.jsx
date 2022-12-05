@@ -2,7 +2,7 @@ const Header = () => {
   const handleBack = () => window.history.back()
 
   return (
-    <header className='h-10 p-2 max-w-3xl mx-auto'>
+    <header className='h-10 p-2 mx-auto absolute left-4 w-1/2 md:left-1/2 md:-translate-x-1/2'>
       <div onClick={handleBack} className="cursor-pointer inline-block">
         <div className='flex gap-2'>
           <svg viewBox="0 0 320 512" fill='#fff' height={24} width={24}>
