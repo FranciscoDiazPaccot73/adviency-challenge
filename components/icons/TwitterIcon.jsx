@@ -1,4 +1,3 @@
-
 const TwitterIcon = ({ height = 50, width = 50, color = "#00ACEE" }) => (
   <svg viewBox="0 0 512 512" height={height} width={width} fill={color}>
     <path

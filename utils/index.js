@@ -7,11 +7,13 @@ const templateFile = (user, day) =>
   `import Head from 'next/head';
 
   const Day${day} = () => (
-    <Head>
-      <title>${user.toUpperCase()} | Adviency Challenge | Dia ${day}</title>
-      <meta name="description" content="Adviency Challenge" />
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+    <>
+      <Head>
+        <title>${user.toUpperCase()} | Adviency Challenge | Dia ${day}</title>
+        <meta name="description" content="Adviency Challenge" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+    </>
   );
   export default Day${day};
   `
