@@ -32,6 +32,22 @@ a {
   border: 1px solid white;
 }
 
+.fran-modal {
+  position: absolute;
+  top: -500%;
+  opacity: 0;
+  background-color: #808080;
+  border-radius: 6px;
+  transition: all 300ms ease-in-out;
+  padding: 20px;
+}
+
+.fran-modal.open {
+  transition: all 300ms ease-in-out;
+  opacity: 1;
+  top: 0;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

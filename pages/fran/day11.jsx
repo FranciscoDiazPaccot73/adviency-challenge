@@ -1,16 +1,15 @@
 import Image from "next/image";
 import Head from 'next/head'
-
 import { useState, useEffect } from "react";
+
+import Modal from "../../components/fran/Modal";
 
 import { getIdByName } from "../../utils/fran";
 
-const Day10 = () => {
+const Day11 = () => {
   const [elements, setElements] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [inputAmount, setInputAmount] = useState(1);
-  const [inputHasError, setError] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  
 
   useEffect(() => {
     const items = localStorage.getItem('fran')
@@ -19,40 +18,13 @@ const Day10 = () => {
     }
   }, [])
 
-  const handleInputChange = e => {
-    const { value, name } = e.target;
-
-    if (name === 'gift') {
-      setInputValue(value)
-      setError(false)
-    } else {
-      setImageUrl(value)
-    }
-  }
-
   const updateLocalStorage = (newItems) => {
     if (newItems.length) {
       const itemsString = JSON.stringify(newItems);
-  
+      
       localStorage.setItem('fran', itemsString)
     } else {
       localStorage.removeItem('fran')
-    }
-  }
-
-  const handleAddItem = () => {
-    const elemId = getIdByName(inputValue)
-    if (elements.find(elem => elem && elem.id === elemId)) {
-      setError(true)
-    } else {
-      const newElem = { name: inputValue, amount: inputAmount, id: getIdByName(inputValue), url: imageUrl }
-      const newElems = [...elements, newElem ];
-      setInputValue('')
-      setInputAmount(1)
-      setImageUrl('')
-  
-      setElements(newElems)
-      updateLocalStorage(newElems)
     }
   }
 
@@ -70,14 +42,6 @@ const Day10 = () => {
     updateLocalStorage(newElems)
   }
 
-  const handleInputAmount = (action = 'remove') => {
-    if (action === 'remove') {
-      setInputAmount(prevValue => parseInt(prevValue - 1))
-    } else {
-      setInputAmount(prevValue => prevValue + 1)
-    }
-  }
-
   const handleDeleteAll = () => {
     setElements([])
     localStorage.removeItem('fran')
@@ -86,31 +50,15 @@ const Day10 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Adviency Challenge | Dia 10</title>
+        <title>FRAN | Adviency Challenge | Dia 11</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="min-h-screen p-8 pt-0 bg-[url('/christmas.jpg')] bg-cover bg-no-repeat flex justify-center items-center">
+        <Modal show={showModal} />
         <div className="relative p-6 rounded-md flex flex-col justify-center items-center bg-glass border border-white glass-white-border md:p-12">
           <p className=" text-2xl mb-4 w-full">Regalos:</p>
-          <div className="flex gap-4 mb-7 flex-col items-center md:items-baseline md:flex-row">
-            <div className="relative">
-              <input placeholder="Regalo" name="gift" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={inputValue} />
-              {inputHasError ? <p className="absolute left-2 text-sm text-red-600">Ya cargaste este regalo :(</p> : null}
-            </div>
-            <input name="url" placeholder="Image URL" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={imageUrl} />
-            <div className="flex items-center gap-2">
-              <button
-                className={`rounded-full w-4 h-4 flex items-center justify-center ${inputAmount === 1 ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`}
-                disabled={inputAmount === 1}
-                onClick={() => handleInputAmount()}>-</button>
-              {inputAmount}
-              <button
-                className={`rounded-full w-4 h-4 flex items-center justify-center bg-red-700 hover:bg-green-800`}
-                onClick={() => handleInputAmount('add')}>+</button>
-            </div>
-            <button disabled={inputValue === ''} className={`rounded-full px-4 h-10 ${inputValue === '' ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`} onClick={handleAddItem}>Agregar</button>
-          </div>
+          <button onClick={() => setShowModal(prevValue => !prevValue)}>Agregar regalos</button>
           <ul className="flex justify-center flex-col w-full">
             {elements?.map(elem => {
               if (!elem.id) return null;
@@ -141,5 +89,5 @@ const Day10 = () => {
   )
 };
 
-export default Day10;
+export default Day11;
   
