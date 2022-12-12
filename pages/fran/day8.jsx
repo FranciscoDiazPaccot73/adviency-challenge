@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-import Head from 'next/head';
-
-  const Day8 = () => (
-=======
 import Image from "next/image";
 import Head from 'next/head'
 
@@ -58,18 +53,12 @@ const Day8 = () => {
   }
 
   return (
->>>>>>> 9cfc0991e8ff8de62230e01933a3e369c0e67171
     <>
       <Head>
         <title>FRAN | Adviency Challenge | Dia 8</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-<<<<<<< HEAD
-    </>
-  );
-  export default Day8;
-=======
       <div className="min-h-screen p-8 pt-0 bg-[url('/christmas.jpg')] bg-cover bg-no-repeat flex justify-center items-center">
         <div className="relative p-6 rounded-md flex flex-col justify-center items-center border border-white md:p-12">
           <p className=" text-2xl mb-4 w-full">Regalos:</p>
@@ -120,5 +109,4 @@ const Day8 = () => {
 };
 
 export default Day8;
->>>>>>> 9cfc0991e8ff8de62230e01933a3e369c0e67171
   
