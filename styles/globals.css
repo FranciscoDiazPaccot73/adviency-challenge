@@ -30,22 +30,68 @@ a {
 
 .glass-white-border {
   border: 1px solid white;
+  min-width: 340px;
+}
+
+.fran-modal-wrapper {
+  background-color: rgba(0,0,0,.8);
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  top: -100%;
+}
+
+.fran-modal-wrapper.open {
+  z-index: 100;
+  opacity: 1;
+  top: 0;
 }
 
 .fran-modal {
-  position: absolute;
-  top: -500%;
+  left: 50%;
   opacity: 0;
-  background-color: #808080;
-  border-radius: 6px;
-  transition: all 300ms ease-in-out;
   padding: 20px;
+  position: absolute;
+  top: -100%;
+  transform: translateX(-50%);
+  transition: all 300ms ease-in-out;
 }
 
 .fran-modal.open {
-  transition: all 300ms ease-in-out;
   opacity: 1;
-  top: 0;
+  top: 30%;
+  transition: all 300ms ease-in-out;
+}
+
+.bg-glass-minimus {
+  min-height: 210px;
+  min-width: 340px;
+}
+
+.splash-bg {
+  opacity: 1;
+  transition: opacity 350ms ease-in-out;
+}
+
+.splash-bg.hide {
+  opacity: 0;
+  transition: opacity 350ms ease-in-out;
+}
+
+.splash {
+  transition: all 350ms ease-in-out;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.splash.move {
+  top: -2rem;
+  left: 9rem;
+  transition: all 350ms ease-in-out;
+  transform: translate3d(0, 0, 0);
 }
 
 @media (prefers-color-scheme: dark) {
