@@ -17,7 +17,6 @@ import { useState } from "react";
 
     const deleteItem = (id)=>{
       const presentFound = presents.filter(gift => gift !== id)
-      console.log(presentFound);
       setPresents(presentFound)
     }
 
@@ -31,8 +30,8 @@ import { useState } from "react";
         </div>
         <ul style={styles.presents}>
           {presents.map(gift=>(
-            <li key={gift}>
-              <p>{gift}</p>
+            <li style={styles.itemList} key={gift}>
+              <span>{gift}</span>
               <button onClick={()=>deleteItem(gift)}>X</button>
             </li>
           )
@@ -73,10 +72,15 @@ import { useState } from "react";
     },
     presents:{
       display:'flex',
+      flexDirection: 'column',
       backgroundColor: '#3F4E4F',
       borderRadius: 10,
       width: 275,
       padding: '5px 10px',
+    },
+    itemList: {
+      display: 'flex',
+      justifyContent: 'space-between',
     },
     title: {
       fontFamily: 'Home Christmas',
