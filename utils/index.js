@@ -9,7 +9,7 @@ const templateFile = (user, day) =>
   const Day${day} = () => (
     <>
       <Head>
-        <title>${user.toUpperCase()} | Adviency Challenge | Dia ${day}</title>
+        <title>${user.toUpperCase()} | Dia ${day} | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
