@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-import { getIdByName, generateRandomID } from "../../utils/fran";
+import { generateRandomID } from "../../utils/fran";
 import Image from "next/image";
 
 
@@ -8,6 +8,11 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
   const DEFAULT_VALUES = { name: '', amount: 1, url: '', receiver: '' }
   const [values, setValues] = useState({...DEFAULT_VALUES, id: generateRandomID()})
   const [inputHasError, setError] = useState(false);
+  const presentRef = useRef()
+
+  useEffect(() => {
+    if (show) presentRef.current.focus();
+  }, [show])
 
   useEffect(() => {
     editItem && setValues(editItem)
@@ -79,7 +84,7 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
         <div>
           <div className="flex gap-4 flex-col items-center mb-8 md:items-baseline md:flex-row">
             <div className="relative mb-4 md:mb-0">
-              <input placeholder="Regalo" name="gift" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.name} />
+              <input ref={presentRef} placeholder="Regalo" name="gift" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.name} />
               {inputHasError ? <p className="absolute left-2 text-sm text-red-600">Ya cargaste este regalo :(</p> : null}
             </div>
             <input name="receiver" placeholder="Destinatario" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.receiver} />
