@@ -78,13 +78,24 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
     setError(false)
   }
 
+  const getSuggestion = () => {
+    const PRESENTS =
+      ['Campera', 'Remera', 'Zapatilla', 'Buzo', 'Gorra', 'Medias', 'Pantalon'].filter(p => p !== values?.name);
+    
+    const suggestion = PRESENTS[Math.floor(Math.random()*PRESENTS.length)];
+    setValues({ ...values, name: suggestion })
+  }
+
   return (
     <div className={`fran-modal-wrapper ${show ? 'open' : ''}`}>
       <div className={`rounded-md bg-glass glass-white-border fran-modal ${show ? 'open' : ''}`}>
         <div>
           <div className="flex gap-4 flex-col items-center mb-8 md:items-baseline md:flex-row">
             <div className="relative mb-4 md:mb-0">
-              <input ref={presentRef} placeholder="Regalo" name="gift" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.name} />
+              <div className="relative">
+                <input ref={presentRef} placeholder="Regalo" name="gift" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.name} />
+                <button onClick={getSuggestion} className="absolute rounded-r-md text-sm right-0 top-0 h-10 px-2 bg-gray-700 border-l border-l-white hover:bg-green-800">Sugerir</button>
+              </div>
               {inputHasError ? <p className="absolute left-2 text-sm text-red-600">Ya cargaste este regalo :(</p> : null}
             </div>
             <input name="receiver" placeholder="Destinatario" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.receiver} />
