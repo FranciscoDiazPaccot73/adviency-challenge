@@ -48,9 +48,9 @@ const Day8 = () => {
         <p style={styles.title}>Regalos</p>
         <div style={styles.inputGroup}>
           <input value={inputValue} onChange={handleCatchValue} placeholder="Ingresa tu regalo" type="text" />
-          <button onClick={handleToSubtract}>-</button>
+          <button style={styles.button} onClick={handleToSubtract}>-</button>
           <span>{count}</span>
-          <button onClick={handleToAdd}>+</button>
+          <button style={styles.button} onClick={handleToAdd}>+</button>
           <button style={styles.button} onClick={handleAddItem}>Agregar</button>
         </div>
         {presents.length === 0 ?
@@ -59,7 +59,7 @@ const Day8 = () => {
             {presents.map(gift => (
               <li style={styles.itemList} key={gift.id}>
                 <span>{gift.name}</span>
-                <p>{gift.count}</p>
+                <p style={styles.count}>x{gift.count}</p>
                 <button onClick={() => deleteItem(gift)}>X</button>
               </li>
             )
@@ -90,7 +90,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     width: 275,
-    margin: '0 0 20px'
+    margin: '0 0 20px',
+    alignItems: 'center',
   },
   button: {
     backgroundImage: 'linear-gradient(to right, #50D5B7 0%, #067D68 100%)',
@@ -121,5 +122,8 @@ const styles = {
     color: '#ffde59',
     margin: 25,
     fontSize: '2.5rem'
+  },
+  count:{
+    color:'#7F8487'
   }
 }
