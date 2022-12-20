@@ -3,9 +3,18 @@ import { useState, useEffect, useRef } from "react";
 import { generateRandomID } from "../../utils/fran";
 import Image from "next/image";
 
+const PRESENTS =[
+  { name: 'Campera', price: 12000, image: '' },
+  { name: 'Remera', price: 5000, image: '' },
+  { name: 'Zapatillas', price: 37500, image: '' },
+  { name: 'Buzo', price: 6000, image: '' },
+  { name: 'Gorra', price: 3200, image: '' },
+  { name: 'Medias', price: 1700, image: '' },
+  { name: 'Pantalon', price: 7500, image: '' },
+]
 
 const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => {
-  const DEFAULT_VALUES = { name: '', amount: 1, url: '', receiver: '' }
+  const DEFAULT_VALUES = { name: '', amount: 1, url: '', receiver: '', price: '' }
   const [values, setValues] = useState({...DEFAULT_VALUES, id: generateRandomID()})
   const [inputHasError, setError] = useState(false);
   const presentRef = useRef()
@@ -27,6 +36,8 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
       obj.name = value;
     } else if (name === 'url') {
       obj.url = value;
+    } else if(name === 'price') {
+      obj.price = value;
     } else {
       obj.receiver = value;
     }
@@ -44,8 +55,8 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
     } else {
       let newElem = { ...values, id: generateRandomID(), receiver: rec }
       let newElems = [...elements, newElem ];
-      if (editItem) {
-        const myElem = elements.find(elem => elem && elem.id === values.id)
+      const myElem = elements.find(elem => elem && elem.id === values.id)
+      if (editItem && myElem) {
         newElem = { ...values, receiver: rec }
         newElems = [];
         elements.forEach(elem => {
@@ -79,11 +90,11 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
   }
 
   const getSuggestion = () => {
-    const PRESENTS =
-      ['Campera', 'Remera', 'Zapatilla', 'Buzo', 'Gorra', 'Medias', 'Pantalon'].filter(p => p !== values?.name);
+    const presents = PRESENTS.filter(p => p.name !== values?.name);
     
-    const suggestion = PRESENTS[Math.floor(Math.random()*PRESENTS.length)];
-    setValues({ ...values, name: suggestion })
+    const { name, price, image } = presents[Math.floor(Math.random()*presents.length)];
+
+    setValues({ ...values, name, price, image })
   }
 
   return (
@@ -102,7 +113,8 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
           </div>
           <div className="flex gap-4 flex-col items-center md:items-baseline md:flex-row">
             <input name="url" placeholder="Image URL" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={values.url} />
-            <div className="flex items-center gap-2 w-full justify-center text-lg">
+            <div className="flex items-center gap-2 w-full text-lg justify-center md:justify-start">
+              <input onChange={handleInputChange} name="price" placeholder="Precio" type="number" value={values.price} className="p-2 rounded-md price-input-element" />
               <button
                 className={`rounded-full w-4 h-4 flex items-center justify-center ${values.amount === 1 ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`}
                 disabled={values.amount === 1}
@@ -121,7 +133,7 @@ const Modal = ({ show, onCancel, onAdd, elements, gnome = false, editItem }) => 
             ) : null}
             <button className="w-1/2 hover:text-red-700" onClick={handleCancel}>Cancelar</button>
             <button disabled={values.name === ''} className={`rounded-full px-4 w-1/2 h-10 ${values.name === '' ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`} onClick={handleAddItem}>
-              {`${editItem ? 'Modificar' : 'Agregar'}`}
+              {`${editItem ? 'Confirmar' : 'Agregar'}`}
             </button>
           </div>
         </div>
