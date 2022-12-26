@@ -89,7 +89,7 @@ const styles = {
   inputGroup: {
     display: 'flex',
     justifyContent: 'space-between',
-    width: 275,
+    width: 370,
     margin: '0 0 20px',
     alignItems: 'center',
   },
