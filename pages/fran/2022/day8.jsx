@@ -1,43 +1,20 @@
 import Image from "next/image";
 import Head from 'next/head'
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import { getIdByName } from "../../utils/fran";
+import { getIdByName } from "../../../utils/fran";
 
-const Day10 = () => {
+const Day8 = () => {
   const [elements, setElements] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
   const [inputAmount, setInputAmount] = useState(1);
   const [inputHasError, setError] = useState(false);
 
-  useEffect(() => {
-    const items = localStorage.getItem('fran')
-    if (items) {
-      setElements(JSON.parse(items))
-    }
-  }, [])
-
   const handleInputChange = e => {
-    const { value, name } = e.target;
-
-    if (name === 'gift') {
-      setInputValue(value)
-      setError(false)
-    } else {
-      setImageUrl(value)
-    }
-  }
-
-  const updateLocalStorage = (newItems) => {
-    if (newItems.length) {
-      const itemsString = JSON.stringify(newItems);
-  
-      localStorage.setItem('fran', itemsString)
-    } else {
-      localStorage.removeItem('fran')
-    }
+    const { value } = e.target;
+    setInputValue(value)
+    setError(false)
   }
 
   const handleAddItem = () => {
@@ -45,14 +22,12 @@ const Day10 = () => {
     if (elements.find(elem => elem && elem.id === elemId)) {
       setError(true)
     } else {
-      const newElem = { name: inputValue, amount: inputAmount, id: getIdByName(inputValue), url: imageUrl }
+      const newElem = { name: inputValue, amount: inputAmount, id: getIdByName(inputValue) }
       const newElems = [...elements, newElem ];
       setInputValue('')
       setInputAmount(1)
-      setImageUrl('')
   
       setElements(newElems)
-      updateLocalStorage(newElems)
     }
   }
 
@@ -67,7 +42,6 @@ const Day10 = () => {
     }
 
     setElements(newElems)
-    updateLocalStorage(newElems)
   }
 
   const handleInputAmount = (action = 'remove') => {
@@ -78,27 +52,21 @@ const Day10 = () => {
     }
   }
 
-  const handleDeleteAll = () => {
-    setElements([])
-    localStorage.removeItem('fran')
-  }
-
   return (
     <>
       <Head>
-        <title>FRAN | Adviency Challenge | Dia 10</title>
+        <title>FRAN | Adviency Challenge | Dia 8</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="min-h-screen p-8 pt-0 bg-[url('/christmas.jpg')] bg-cover bg-no-repeat flex justify-center items-center">
-        <div className="relative p-6 rounded-md flex flex-col justify-center items-center bg-glass border border-white glass-white-border md:p-12">
+        <div className="relative p-6 rounded-md flex flex-col justify-center items-center border border-white md:p-12">
           <p className=" text-2xl mb-4 w-full">Regalos:</p>
-          <div className="flex gap-4 mb-7 flex-col items-center md:items-baseline md:flex-row">
+          <div className="flex gap-4 mb-7">
             <div className="relative">
-              <input placeholder="Regalo" name="gift" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={inputValue} />
+              <input className="p-2 rounded-md" type="text" onChange={handleInputChange} value={inputValue} />
               {inputHasError ? <p className="absolute left-2 text-sm text-red-600">Ya cargaste este regalo :(</p> : null}
             </div>
-            <input name="url" placeholder="Image URL" className="p-2 rounded-md" type="text" onChange={handleInputChange} value={imageUrl} />
             <div className="flex items-center gap-2">
               <button
                 className={`rounded-full w-4 h-4 flex items-center justify-center ${inputAmount === 1 ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`}
@@ -109,18 +77,17 @@ const Day10 = () => {
                 className={`rounded-full w-4 h-4 flex items-center justify-center bg-red-700 hover:bg-green-800`}
                 onClick={() => handleInputAmount('add')}>+</button>
             </div>
-            <button disabled={inputValue === ''} className={`rounded-full px-4 h-10 ${inputValue === '' ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`} onClick={handleAddItem}>Agregar</button>
+            <button disabled={inputValue === ''} className={`rounded-full px-4 ${inputValue === '' ? 'bg-red-900 text-slate-300' : 'bg-red-700 hover:bg-green-800'}`} onClick={handleAddItem}>Agregar</button>
           </div>
           <ul className="flex justify-center flex-col w-full">
             {elements?.map(elem => {
               if (!elem.id) return null;
 
               return (
-                <li key={elem.name} className="w-full flex items-center mt-2">
-                  <img src={elem.url !== '' ? elem.url : '/default-image.png'} alt={elem.name} width={30} height={30} className='mr-2' />
+                <li key={elem.name} className="w-full flex">
                   <span>{elem.name}</span>
-                  <p className="ml-2 text-xs">({elem.amount})</p>
                   <div className="ml-auto flex gap-2">
+                    <p>x{elem.amount}</p>
                     <div className="cursor-pointer px-3 hover:text-red-700" onClick={() => deleteItem(elem.name)}>{elem.amount >= 2 ? '-' : 'X'}</div>
                   </div>
                 </li>
@@ -131,7 +98,7 @@ const Day10 = () => {
             <Image src="/gnome.webp" alt="Gnome" width={120} height={80} />
           </div>
           {elements?.length ? (
-            <button onClick={handleDeleteAll} className="w-full mt-8 rounded-full bg-red-700 py-1 hover:bg-green-800">
+            <button onClick={() => setElements([])} className="w-full mt-8 rounded-full bg-red-700 py-1 hover:bg-green-800">
               Borrar todo
             </button>
           ) : <p>Carga tu primer regalo a la lista :)</p>}
@@ -141,5 +108,5 @@ const Day10 = () => {
   )
 };
 
-export default Day10;
+export default Day8;
   

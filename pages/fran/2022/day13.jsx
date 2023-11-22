@@ -2,9 +2,11 @@ import Image from "next/image";
 import Head from 'next/head'
 import { useState, useEffect, useRef } from "react";
 
-import Modal from "../../components/fran/Modal";
+import Modal from "../../../components/fran/Modal";
 
-const Day15 = () => {
+import { getIdByName } from "../../../utils/fran";
+
+const Day13 = () => {
   const [elements, setElements] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -15,11 +17,6 @@ const Day15 = () => {
     if (items) {
       setElements(JSON.parse(items))
     }
-
-    fetch('/api/fran').then(async data => {
-      const json = await data.json()
-      console.log(json)
-    })
     
     setTimeout(() => {
       setShowSplash(false)
@@ -74,7 +71,7 @@ const Day15 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Dia 15 | Adviency Challenge</title>
+        <title>FRAN | Dia 13 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -98,8 +95,8 @@ const Day15 = () => {
                     <p className="text-xs text-slate-400">{elem.receiver}</p>
                   </div>
                   <div className="ml-auto flex gap-2">
-                    <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => handleEdit(elem)}>E</button>
-                    <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => deleteItem(elem.id)}>{elem.amount >= 2 ? '-' : 'X'}</button>
+                    <div className="cursor-pointer px-3 hover:text-red-700" onClick={() => handleEdit(elem)}>E</div>
+                    <div className="cursor-pointer px-3 hover:text-red-700" onClick={() => deleteItem(elem.id)}>{elem.amount >= 2 ? '-' : 'X'}</div>
                   </div>
                 </li>
               )
@@ -110,7 +107,7 @@ const Day15 = () => {
           </div>
           <div className={`w-full splash-bg ${showSplash ? 'hide' : ''}`}>
             {elements?.length ? (
-              <button onClick={handleDeleteAll} className="w-full mt-10 rounded-full border border-red-700 text-white py-1 hover:bg-red-700">
+              <button onClick={handleDeleteAll} className="w-full mt-10 rounded-full bg-red-700 py-1 hover:bg-green-800">
                 Borrar todo
               </button>
             ) : <p>Carga tu primer regalo a la lista :)</p>}
@@ -121,5 +118,5 @@ const Day15 = () => {
   )
 };
 
-export default Day15;
+export default Day13;
   

@@ -2,9 +2,9 @@ import Image from "next/image";
 import Head from 'next/head'
 import { useState, useEffect, useRef } from "react";
 
-import Modal from "../../components/fran/Modal";
+import Modal from "../../../components/fran/Modal";
 
-const Day16 = () => {
+const Day14 = () => {
   const [elements, setElements] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -15,11 +15,6 @@ const Day16 = () => {
     if (items) {
       setElements(JSON.parse(items))
     }
-
-    fetch('/api/fran').then(async data => {
-      const json = await data.json()
-      console.log(json)
-    })
     
     setTimeout(() => {
       setShowSplash(false)
@@ -74,7 +69,7 @@ const Day16 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Dia 16 | Adviency Challenge</title>
+        <title>FRAN | Dia 14 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -121,5 +116,5 @@ const Day16 = () => {
   )
 };
 
-export default Day16;
+export default Day14;
   

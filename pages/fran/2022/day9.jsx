@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 import { useState, useEffect } from "react";
 
-import { getIdByName } from "../../utils/fran";
+import { getIdByName } from "../../../utils/fran";
 
 const Day9 = () => {
   const [elements, setElements] = useState([]);

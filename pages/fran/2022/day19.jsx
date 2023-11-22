@@ -2,11 +2,11 @@ import Image from "next/image";
 import Head from 'next/head'
 import { useState, useEffect, useRef } from "react";
 
-import Modal from "../../components/fran/Modal";
+import Modal from "../../../components/fran/Modal";
 
-import { getTotal } from "../../utils/fran";
+import { getTotal, generateRandomID } from "../../../utils/fran";
 
-const Day18 = () => {
+const Day19 = () => {
   const [elements, setElements] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -75,15 +75,21 @@ const Day18 = () => {
     setShowModal(false)
   }
   
-  const handleEdit = (item) => {
-    itemToEdit.current = item
+  const handleEdit = (item, isDuplicate = false) => {
+    const newItem = { ...item };
+    itemToEdit.current = newItem
+
+    if (isDuplicate) {
+      itemToEdit.current.id = generateRandomID()
+    }
+
     setShowModal(true)
   }
 
   return (
     <>
       <Head>
-        <title>FRAN | Dia 18 | Adviency Challenge</title>
+        <title>FRAN | Dia 19 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -109,6 +115,7 @@ const Day18 = () => {
                   </div>
                   <div className="ml-auto flex gap-2">
                     <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => handleEdit(elem)}>E</button>
+                    <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => handleEdit(elem, true)}>D</button>
                     <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => deleteItem(elem.id)}>{elem.amount >= 2 ? '-' : 'X'}</button>
                   </div>
                 </li>
@@ -136,5 +143,5 @@ const Day18 = () => {
   )
 };
 
-export default Day18;
+export default Day19;
   

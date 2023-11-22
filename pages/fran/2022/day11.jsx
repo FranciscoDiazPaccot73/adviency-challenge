@@ -2,9 +2,9 @@ import Image from "next/image";
 import Head from 'next/head'
 import { useState, useEffect } from "react";
 
-import Modal from "../../components/fran/Modal";
+import Modal from "../../../components/fran/Modal";
 
-import { getIdByName } from "../../utils/fran";
+import { getIdByName } from "../../../utils/fran";
 
 const Day11 = () => {
   const [elements, setElements] = useState([]);

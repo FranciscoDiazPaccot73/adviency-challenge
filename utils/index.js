@@ -1,7 +1,7 @@
-const fs = require('fs')
+const fs = require('fs');
 
 const CWD = process.cwd();
-const DIR = `${CWD}/pages/`
+const DIR = `${CWD}/pages/`;
 
 const templateFile = (user, day) =>
   `import Head from 'next/head';
@@ -16,30 +16,35 @@ const templateFile = (user, day) =>
     </>
   );
   export default Day${day};
-  `
+  `;
 
-export const getFileIfExist = (day, user) => {
-  if (process.env.NODE_ENV === 'development' && !fs.existsSync(`${DIR}${user}/day${day}.jsx`)) {
-    fs.writeFile(`${DIR}${user}/day${day}.jsx`, templateFile(user, day), (err) => {
-      console.log(err)
-    })
+export const getFileIfExist = (day, user, year, extension) => {
+  if (process.env.NODE_ENV === 'development' && !fs.existsSync(`${DIR}${user}/${year}/day${day}.${extension}`)) {
+    fs.writeFile(`${DIR}${user}/${year}/day${day}.${extension}`, templateFile(user, day), (err) => {
+      console.log(err);
+    });
   }
-}
+};
 
-const generate = (days, user) => {
+const generate = (days, user, year, extension) => {
+  // eslint-disable-next-line no-plusplus
   for (let i = 1; i < days + 1; i++) {
-    getFileIfExist(i, user)
+    getFileIfExist(i, user, year, extension);
   }
-}
+};
 
-export const generateFiles = (user) => {
+const AVAILABLE_YEARS = ['2022', '2023'];
+
+export const generateFiles = (user, year, extension = 'jsx') => {
   const today = new Date();
   const currentDay = today.getDate();
-  const month = today.getMonth()
-  const year = today.getFullYear();
+  const month = today.getMonth();
+
+  if (!AVAILABLE_YEARS.includes(year)) return;
+
   if (month === 11 && year === 2022 && currentDay < 23) {
-    generate(currentDay, user)
+    generate(currentDay, user, year, extension);
   } else {
-    generate(22, user)
+    generate(1, user, year, extension);
   }
-}
+};

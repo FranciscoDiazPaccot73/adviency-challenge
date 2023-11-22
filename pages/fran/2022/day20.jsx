@@ -2,18 +2,27 @@ import Image from "next/image";
 import Head from 'next/head'
 import { useState, useEffect, useRef } from "react";
 
-import Modal from "../../components/fran/Modal";
+import Modal from "../../../components/fran/Modal";
+import Preview from "../../../components/fran/Preview";
 
-const Day17 = () => {
+import { getTotal, generateRandomID } from "../../../utils/fran";
+
+const Day20 = () => {
   const [elements, setElements] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [total, setTotal] = useState(0)
+  const [showPreview, setShowPreview] = useState(false)
   const itemToEdit = useRef()
+
+  const options = { style: 'currency', currency: 'ARS' };
+  const numberFormat = new Intl.NumberFormat('es-AR', options);
 
   useEffect(() => {
     const items = localStorage.getItem('fran')
     if (items) {
       setElements(JSON.parse(items))
+      setTotal(getTotal(JSON.parse(items)))
     }
 
     fetch('/api/fran').then(async data => {
@@ -46,16 +55,21 @@ const Day17 = () => {
     }
 
     setElements(newElems)
+    setTotal(getTotal(newElems))
     updateLocalStorage(newElems)
+    if (!newElems.length) setShowPreview(false)
   }
 
   const handleDeleteAll = () => {
     setElements([])
+    setTotal(getTotal([]))
     localStorage.removeItem('fran')
+    setShowPreview(false)
   }
 
   const handleAdd = (newElems) => {
     setElements(newElems)
+    setTotal(getTotal(newElems))
     updateLocalStorage(newElems)
 
     handleResetModal()
@@ -66,29 +80,33 @@ const Day17 = () => {
     setShowModal(false)
   }
   
-  const handleEdit = (item) => {
-    itemToEdit.current = item
+  const handleEdit = (item, isDuplicate = false) => {
+    const newItem = { ...item };
+    itemToEdit.current = newItem
+
+    if (isDuplicate) {
+      itemToEdit.current.id = generateRandomID()
+    }
+
     setShowModal(true)
   }
 
   return (
     <>
       <Head>
-        <title>FRAN | Dia 17 | Adviency Challenge</title>
+        <title>FRAN | Dia 20 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen p-8 pt-0 bg-[url('/christmas.jpg')] bg-cover bg-no-repeat flex justify-center items-center">
+      <div className="bg-black min-h-screen p-8 pt-0 bg-[url('/christmas.jpg')] bg-cover bg-no-repeat flex justify-center items-center">
         <Modal show={showModal} onCancel={handleResetModal} onAdd={handleAdd} elements={elements} gnome editItem={itemToEdit.current} />
-        <div className="relative p-6 rounded-md flex flex-col justify-center items-center bg-glass border glass-white-border bg-glass-minimus md:p-8">
+        <div className="relative p-6 flex flex-col justify-center items-center rounded-3xl border glass-white-border bg-glass-minimus md:p-8">
           <p className={`text-2xl mb-4 w-full splash-bg ${showSplash ? 'hide' : ''}`}>Regalos:</p>
           <button className={`w-full rounded-full h-10 flex items-center justify-center mb-8 bg-red-700 hover:bg-green-800 splash-bg ${showSplash ? 'hide' : ''}`} onClick={() => setShowModal(prevValue => !prevValue)}>AGREGAR REGALOS</button>
           <ul className={`flex justify-center flex-col w-full splash-bg ${showSplash ? 'hide' : ''}`}>
             {elements?.map(elem => {
               if (!elem.id) return null;
-              const options = { style: 'currency', currency: 'ARS' };
-              const numberFormat = new Intl.NumberFormat('es-AR', options);
-
+              
               return (
                 <li key={elem.id} className="w-full flex items-center mt-3">
                   <img src={elem.url !== '' ? elem.url : '/default-image.png'} alt={elem.name} width={42} height={42} className='mr-2' />
@@ -102,6 +120,7 @@ const Day17 = () => {
                   </div>
                   <div className="ml-auto flex gap-2">
                     <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => handleEdit(elem)}>E</button>
+                    <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => handleEdit(elem, true)}>D</button>
                     <button className="cursor-pointer px-3 hover:text-red-700" onClick={() => deleteItem(elem.id)}>{elem.amount >= 2 ? '-' : 'X'}</button>
                   </div>
                 </li>
@@ -113,16 +132,25 @@ const Day17 = () => {
           </div>
           <div className={`w-full splash-bg ${showSplash ? 'hide' : ''}`}>
             {elements?.length ? (
-              <button onClick={handleDeleteAll} className="w-full mt-10 rounded-full border border-red-700 text-white py-1 hover:bg-red-700">
-                Borrar todo
-              </button>
+              <div>
+                <div className="my-4 border-t">
+                  <p className="font-bold pt-3">{`Total: ${numberFormat.format(total)}`}</p>
+                </div>
+                <button onClick={handleDeleteAll} className="w-full mt-5 rounded-full border border-red-700 text-white py-1 hover:bg-red-700">
+                  Borrar todo
+                </button>
+                <button onClick={() => setShowPreview(prev => !prev)} className="w-full mt-5 rounded-full text-white py-1 hover:text-red-700">
+                  Preview
+                </button>
+              </div>
             ) : <p>Carga tu primer regalo a la lista :)</p>}
           </div>
+          <Preview show={showPreview} elements={elements} onClose={() => setShowPreview(prev => !prev)} />
         </div>
       </div>
     </>
   )
 };
 
-export default Day17;
+export default Day20;
   

@@ -2,19 +2,30 @@ import Image from "next/image";
 import Head from 'next/head'
 import { useState, useEffect, useRef } from "react";
 
-import Modal from "../../components/fran/Modal";
+import Modal from "../../../components/fran/Modal";
 
-const Day14 = () => {
+import { getTotal } from "../../../utils/fran";
+
+const Day18 = () => {
   const [elements, setElements] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [total, setTotal] = useState(0)
   const itemToEdit = useRef()
+  const options = { style: 'currency', currency: 'ARS' };
+  const numberFormat = new Intl.NumberFormat('es-AR', options);
 
   useEffect(() => {
     const items = localStorage.getItem('fran')
     if (items) {
       setElements(JSON.parse(items))
+      setTotal(getTotal(JSON.parse(items)))
     }
+
+    fetch('/api/fran').then(async data => {
+      const json = await data.json()
+      console.log(json)
+    })
     
     setTimeout(() => {
       setShowSplash(false)
@@ -41,16 +52,19 @@ const Day14 = () => {
     }
 
     setElements(newElems)
+    setTotal(getTotal(newElems))
     updateLocalStorage(newElems)
   }
 
   const handleDeleteAll = () => {
     setElements([])
+    setTotal(getTotal([]))
     localStorage.removeItem('fran')
   }
 
   const handleAdd = (newElems) => {
     setElements(newElems)
+    setTotal(getTotal(newElems))
     updateLocalStorage(newElems)
 
     handleResetModal()
@@ -69,7 +83,7 @@ const Day14 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Dia 14 | Adviency Challenge</title>
+        <title>FRAN | Dia 18 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -81,7 +95,7 @@ const Day14 = () => {
           <ul className={`flex justify-center flex-col w-full splash-bg ${showSplash ? 'hide' : ''}`}>
             {elements?.map(elem => {
               if (!elem.id) return null;
-
+              
               return (
                 <li key={elem.id} className="w-full flex items-center mt-3">
                   <img src={elem.url !== '' ? elem.url : '/default-image.png'} alt={elem.name} width={42} height={42} className='mr-2' />
@@ -90,6 +104,7 @@ const Day14 = () => {
                       <span>{elem.name}</span>
                       <p className="ml-2 text-xs">({elem.amount})</p>
                     </div>
+                    <p className="text-xs font-bold">{numberFormat.format(elem.price * elem.amount)}</p>
                     <p className="text-xs text-slate-400">{elem.receiver}</p>
                   </div>
                   <div className="ml-auto flex gap-2">
@@ -105,9 +120,14 @@ const Day14 = () => {
           </div>
           <div className={`w-full splash-bg ${showSplash ? 'hide' : ''}`}>
             {elements?.length ? (
-              <button onClick={handleDeleteAll} className="w-full mt-10 rounded-full border border-red-700 text-white py-1 hover:bg-red-700">
-                Borrar todo
-              </button>
+              <div>
+                <div className="my-4 border-t">
+                  <p className="font-bold pt-3">{`Total: ${numberFormat.format(total)}`}</p>
+                </div>
+                <button onClick={handleDeleteAll} className="w-full mt-5 rounded-full border border-red-700 text-white py-1 hover:bg-red-700">
+                  Borrar todo
+                </button>
+              </div>
             ) : <p>Carga tu primer regalo a la lista :)</p>}
           </div>
         </div>
@@ -116,5 +136,5 @@ const Day14 = () => {
   )
 };
 
-export default Day14;
+export default Day18;
   
