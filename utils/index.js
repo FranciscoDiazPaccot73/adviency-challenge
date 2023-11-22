@@ -27,6 +27,7 @@ export const getFileIfExist = (day, user, year, extension) => {
 };
 
 const generate = (days, user, year, extension) => {
+  // eslint-disable-next-line no-plusplus
   for (let i = 1; i < days + 1; i++) {
     getFileIfExist(i, user, year, extension);
   }
