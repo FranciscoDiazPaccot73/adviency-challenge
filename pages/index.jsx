@@ -1,11 +1,11 @@
-import Head from 'next/head';
-import Image from 'next/image';
+import Head from "next/head";
+import Image from "next/image";
 
-import styles from '../styles/Home.module.css';
+import styles from "../styles/Home.module.css";
 
 const users = [
-  { name: 'Joel', user: 'joelwaiman' },
-  { name: 'Fran', user: 'FranciscoDiazPaccot73' },
+  { name: "Joel", user: "joelwaiman" },
+  { name: "Fran", user: "FranciscoDiazPaccot73" },
 ];
 
 export default function Home() {

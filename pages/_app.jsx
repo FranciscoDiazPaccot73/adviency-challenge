@@ -1,11 +1,11 @@
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import '../styles/globals.css';
+import "../styles/globals.css";
 
-const Header = dynamic(() => import('../components/Header'), {
+const Header = dynamic(() => import("../components/Header"), {
   suspense: true,
 });
 
@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const { pathname } = router;
 
-    if (pathname !== '/' && !showHeader) {
+    if (pathname !== "/" && !showHeader) {
       setShowHeader(true);
     }
   }, []);
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
   const onGoBack = () => {
     const { pathname } = router;
 
-    if (pathname === '/fran' || pathname === '/joel') {
+    if (pathname === "/fran" || pathname === "/joel") {
       setShowHeader(false);
     }
   };

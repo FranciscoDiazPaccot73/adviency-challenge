@@ -13,13 +13,7 @@ const Results: FC<ResultsProps> = ({ days, user, year, whatToDo }) => (
   <div className="px-8 pb-8">
     <div className="min-h-screen flex-1 flex flex-col justify-center items-center">
       {whatToDo && (
-        <a
-          className="mt-8"
-          href={whatToDo}
-          rel="noreferrer"
-          target="_blank"
-          title="Ver consigna en Twitter"
-        >
+        <a className="mt-8" href={whatToDo} rel="noreferrer" target="_blank" title="Ver consigna en Twitter">
           <TwitterIcon />
         </a>
       )}

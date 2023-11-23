@@ -11,7 +11,7 @@ export const getAvailableButtons = (button: string, location: string) => {
   const [_, who, year, page] = location.split("/");
   const FILES_LENGTH = generateDaysArray("")?.length;
 
-  if (!page || !year) return null;
+  if (!page || !year || !FILES_LENGTH) return null;
 
   const obj: ObjectType = { user: who, year };
 
