@@ -18,7 +18,7 @@ const templateFile = (user: string, day: number) =>
   export default Day${day};
   `;
 
-export const getFileIfExist = (day: number, user: string, year: number, extension: string) => {
+export const getFileIfExist = (day: number, user: string, year: number | string, extension: string) => {
   if (process.env.NODE_ENV === "development" && !fs.existsSync(`${DIR}${user}/${year}/day${day}.${extension}`)) {
     fs.writeFile(`${DIR}${user}/${year}/day${day}.${extension}`, templateFile(user, day), (err: any) => {
       console.log(err);
@@ -26,7 +26,7 @@ export const getFileIfExist = (day: number, user: string, year: number, extensio
   }
 };
 
-const generate = (days: number, user: string, year: number, extension: string) => {
+const generate = (days: number, user: string, year: number | string, extension: string) => {
   // eslint-disable-next-line no-plusplus
   for (let i = 1; i < days + 1; i++) {
     getFileIfExist(i, user, year, extension);
@@ -35,14 +35,14 @@ const generate = (days: number, user: string, year: number, extension: string) =
 
 const AVAILABLE_YEARS = ["2022", "2023"];
 
-export const generateFiles = (user: string, year: number, extension = "jsx") => {
+export const generateFiles = (user: "fran" | "joel", year: number | string, extension = "jsx") => {
   const today = new Date();
   const currentDay = today.getDate();
   const month = today.getMonth();
 
   if (!AVAILABLE_YEARS.includes(year.toString())) return;
 
-  if (month === 11 && year === 2023 && currentDay < 23) {
+  if (month === 11 && year.toString() === "2023" && currentDay < 23) {
     generate(currentDay, user, year, extension);
   } else {
     generate(22, user, year, extension);

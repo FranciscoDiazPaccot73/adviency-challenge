@@ -19,6 +19,8 @@ export const User: FC<UserProps> = ({ userName }) => {
     if (selectedYear) {
       const d = generateDaysArray(selectedYear);
 
+      fetch(`/api?user=${userName}&year=${selectedYear}`);
+
       setDays(d);
     }
   }, [selectedYear]);
