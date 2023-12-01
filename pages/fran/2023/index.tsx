@@ -7,6 +7,7 @@ import { generateDaysArray } from "../../../utils/array";
 const INFO = {
   user: "fran",
   year: 2023,
+  whatToDo: "https://twitter.com/goncy/status/1730572226565386677",
 };
 
 interface FranProps {
