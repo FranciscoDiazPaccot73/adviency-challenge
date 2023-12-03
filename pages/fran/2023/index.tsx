@@ -14,7 +14,7 @@ interface FranProps {
   days: number[];
 }
 
-const Fran: FC<FranProps> = ({ days }) => <Results days={days} user={INFO.user} year={INFO.year} />;
+const Fran: FC<FranProps> = ({ days }) => <Results days={days} user={INFO.user} whatToDo={INFO.whatToDo} year={INFO.year} />;
 
 export async function getStaticProps() {
   generateFiles(INFO.user, INFO.year, "tsx");

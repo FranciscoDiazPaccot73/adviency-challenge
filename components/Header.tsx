@@ -11,17 +11,31 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ location, goBack }) => {
   const [hasNext, setNext] = useState(getAvailableButtons("next", location));
   const [hasPrev, setPrev] = useState(getAvailableButtons("prev", location));
+  const [backButtonUrl, setBackUrl] = useState("/");
+
+  const getBackUrl = (newLocation: string) => {
+    if (!newLocation.includes("day")) return "/";
+
+    const [_, user, _year, _day] = newLocation.split("/");
+
+    return `/${user}`;
+  };
 
   useEffect(() => {
     setNext(getAvailableButtons("next", location));
     setPrev(getAvailableButtons("prev", location));
+
+    const newUrl = getBackUrl(location);
+
+    setBackUrl(newUrl);
   }, [location]);
 
-  const getBackUrl = () => (location.includes("day") ? `/${hasPrev?.user}` : "/");
-
   return (
-    <header className="h-12 items-center flex justify-between z-10 p-2 mx-auto absolute left-4 w-1/2 md:left-1/2 md:-translate-x-1/2">
-      <Link className="cursor-pointer inline-block" href={getBackUrl()} onClick={goBack}>
+    <header
+      className="h-12 items-center flex justify-between z-10 p-2 mx-auto absolute left-4 w-1/2 md:left-1/2 md:-translate-x-1/2"
+      id="header"
+    >
+      <Link className="cursor-pointer inline-block" href={backButtonUrl} onClick={goBack}>
         <div className="flex gap-2">
           <svg fill="#fff" height={24} viewBox="0 0 320 512" width={24}>
             <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z" />

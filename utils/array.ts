@@ -6,9 +6,9 @@ export const generateDaysArray = (year: string | number) => {
   const month = today.getMonth();
   let length = 22;
 
-  if (!AVAILABLE_YEARS.includes(year.toString())) return;
+  if (!AVAILABLE_YEARS.includes(year?.toString())) return;
 
-  if (month === 11 && year === 2023 && currentDay < 23) {
+  if (month === 11 && year.toString() === "2023" && currentDay < 23) {
     length = currentDay;
   }
 

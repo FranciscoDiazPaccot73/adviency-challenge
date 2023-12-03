@@ -9,7 +9,7 @@ const INFO = {
   whatToDo: "https://twitter.com/goncy/status/1730572226565386677",
 };
 
-const Joel = ({ days }) => <Results days={days} user={INFO.user} year={INFO.year} />;
+const Joel = ({ days }) => <Results days={days} user={INFO.user} whatToDo={INFO.whatToDo} year={INFO.year} />;
 
 export async function getStaticProps(context) {
   generateFiles(INFO.user, INFO.year);

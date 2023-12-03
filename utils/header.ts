@@ -9,7 +9,7 @@ type ObjectType = {
 
 export const getAvailableButtons = (button: string, location: string) => {
   const [_, who, year, page] = location.split("/");
-  const FILES_LENGTH = generateDaysArray("")?.length;
+  const FILES_LENGTH = generateDaysArray(year)?.length;
 
   if (!page || !year || !FILES_LENGTH) return null;
 
