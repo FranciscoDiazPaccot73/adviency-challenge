@@ -11,6 +11,9 @@ module.exports = {
       },
       fontFamily:{
         'title': ["Home Christmas"]
+      },
+      backgroundImage: {
+        'background': "url('/public/j-bg-2023.webp')",
       }
     },
   },
