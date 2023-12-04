@@ -9,6 +9,9 @@ module.exports = {
       gridTemplateColumns: {
         "35-65": "35% 65%",
       },
+      fontFamily:{
+        'title': ["Home Christmas"]
+      }
     },
   },
   plugins: [],
