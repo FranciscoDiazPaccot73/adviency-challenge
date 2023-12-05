@@ -1,33 +1,33 @@
 import Head from 'next/head';
 import { useState } from 'react';
 
-const Day4 = () => {
+  const Day5 = () => {
 
-  const [input, setInput] = useState('');
-  const [gifts, setGifts] = useState([])
+    const [input, setInput] = useState('');
+    const [gifts, setGifts] = useState([]);
 
-  const addGift = () => {
-    const newGift = ([input, ...gifts]);
-    setGifts(newGift);
-    setInput('');
-  }
+    const addGift = () => {
+      const newGift = ([input, ...gifts]);
+      setGifts(newGift);
+      setInput('')
+    }
 
-  const deleteGift = (elmen) => {
-    const giftToRemove = gifts.filter((item) => item !== elmen);
-    setGifts(giftToRemove)
-  }
+    const deleteGift = (elem) => {
+      const giftToDelete = gifts.filter((item) => item !== elem);
+      setGifts(giftToDelete);
+    }
 
-  return (
-    <>
+    return(
+      <>
       <Head>
-        <title>JOEL | Dia 4 | Adviency Challenge</title>
+        <title>JOEL | Dia 5 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-          Dia 4: Papa noel no estuvo muy contento con la demanda de regalos, vamos a tener que agregar un botón de eliminar a cada elemento para poder borrarlos individualmente.
+          Dia 5: La gente está muy indecisa y agrega muchos regalos y después los debe borrar de a uno! Agreguemos un botón para eliminar todos los regalos a la vez!
         </h1>
       </section>
 
@@ -39,8 +39,9 @@ const Day4 = () => {
             value={input}
             onChange={(e)=>setInput(e.target.value)} />
           <button
-            className='bg-red-600 rounded-xl m-2 p-2 w-5/6'
-            onClick={addGift}>
+            className='bg-red-600 rounded-xl m-2 p-2 w-5/6 disabled:opacity-80'
+            onClick={addGift}
+            disabled = {input === ''}>
             Agregar
           </button>
           <ul className='bg-gray-800/50 m-8 w-5/6 p-1 rounded-xl'>
@@ -57,10 +58,17 @@ const Day4 = () => {
               })
             }
           </ul>
+          <button
+            className='bg-red-600 rounded-xl m-2 p-2 w-5/6'
+            onClick={()=>setGifts([])}>
+            Borrar todo
+          </button>
         </div>
       </section>
     </>
-  )
+    )
+  }
 
-};
-export default Day4;
+  ;
+  export default Day5;
+  
