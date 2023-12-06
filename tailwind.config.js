@@ -8,6 +8,8 @@ module.exports = {
       },
       colors: {
         "white-50": "#ffffff50",
+      fontFamily:{
+        'title': ["Home Christmas"]
       },
     },
   },
