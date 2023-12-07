@@ -2,8 +2,12 @@ import { FC, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { generateDaysArray } from "../utils/array";
 
-const FranComponent = dynamic(() => import("./AsideFran").then((mod) => mod.FranElements));
-const JoelComponent = dynamic(() => import("./AsideJoel").then((mod) => mod.JoelElements));
+const FranComponent: any = dynamic(() =>
+  import("./AsideFran").then((mod) => mod.FranElements)
+);
+const JoelComponent: any = dynamic(() =>
+  import("./AsideJoel").then((mod) => mod.JoelElements)
+);
 
 const YEARS = [2022, 2023];
 
@@ -32,17 +36,29 @@ export const User: FC<UserProps> = ({ userName }) => {
           <aside className="flex flex-col border-r border-slate-500 py-8">
             {YEARS?.map((year: number) => {
               const today = new Date();
-              const isYearEnabled = year < today.getFullYear() || today.getMonth() === 11;
+              const isYearEnabled =
+                year < today.getFullYear() || today.getMonth() === 11;
 
-              const enabledClasses = `text-white ${selectedYear === year ? "bg-slate-600" : ""} hover:bg-slate-600`;
-              const disabledClasses = "bg-gray-900 text-slate-400 cursor-not-allowed";
+              const enabledClasses = `text-white ${
+                selectedYear === year ? "bg-slate-600" : ""
+              } hover:bg-slate-600`;
+              const disabledClasses =
+                "bg-gray-900 text-slate-400 cursor-not-allowed";
 
               return (
                 <button
                   key={`button-year-${year}`}
-                  className={`px-4 py-3 ${isYearEnabled ? enabledClasses : disabledClasses}`}
-                  title={isYearEnabled ? year.toString() : "Disponible el 1 de diciembre de 2023"}
-                  onClick={isYearEnabled ? () => setSelectedYear(year) : () => {}}
+                  className={`px-4 py-3 ${
+                    isYearEnabled ? enabledClasses : disabledClasses
+                  }`}
+                  title={
+                    isYearEnabled
+                      ? year.toString()
+                      : "Disponible el 1 de diciembre de 2023"
+                  }
+                  onClick={
+                    isYearEnabled ? () => setSelectedYear(year) : () => {}
+                  }
                 >
                   {year}
                 </button>
@@ -50,8 +66,12 @@ export const User: FC<UserProps> = ({ userName }) => {
             })}
           </aside>
           <aside>
-            {days && userName === "fran" && <FranComponent days={days} selectedYear={selectedYear} />}
-            {days && userName === "joel" && <JoelComponent days={days} selectedYear={selectedYear} />}
+            {days && userName === "fran" && (
+              <FranComponent days={days} selectedYear={selectedYear} />
+            )}
+            {days && userName === "joel" && (
+              <JoelComponent days={days} selectedYear={selectedYear} />
+            )}
           </aside>
         </div>
       </div>
