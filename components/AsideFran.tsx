@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import { FC } from "react";
 
-const FranComponent2022 = dynamic(() => import("../pages/fran/2022"));
-const FranComponent2023 = dynamic(() => import("../pages/fran/2023"));
+const FranComponent2022: any = dynamic(() => import("../pages/fran/2022"));
+const FranComponent2023: any = dynamic(() => import("../pages/fran/2023"));
 
 export interface ElementsProps {
   selectedYear?: number;
