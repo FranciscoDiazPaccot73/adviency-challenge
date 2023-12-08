@@ -1,30 +1,32 @@
 import Head from "next/head";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type, deleteWord } from "../../../utils/fran";
+import { Modal2023 } from "../../../components/fran/Modal2023";
+import { GiftType } from "../../../components/fran/interfaces";
 
-const Day7 = () => {
-  const [gifts, setgifts] = useState<string[]>([]);
-  const [newGiftValue, setValue] = useState<string | null>();
+const Day8 = () => {
+  const [gifts, setgifts] = useState<GiftType[]>([]);
+  const [newGiftValue, setValue] = useState<GiftType | null>();
   const [isTyping, setTyping] = useState<boolean>(false);
   const [isRemovingAll, setIsRemovingAll] = useState<boolean>(false);
+  const [isOpen, setIsModalOpen] = useState<boolean>(false);
   const [lastLenght, setLastLenght] = useState<number>(0);
-  const inputRef = useRef();
+  const inputRef = useRef<any>();
 
-  const addGift = () => {
-    if (newGiftValue) {
-      const newElems = [...new Set([...gifts, newGiftValue])];
-
-      setgifts(newElems);
+  const addGift = (newGift: GiftType) => {
+    if (!gifts.find((currentGift) => currentGift.gift === newGift.gift)) {
+      setValue(newGift);
+      setgifts([...gifts, newGift]);
     }
   };
 
-  const handleRemove = (value: string) => {
-    const newGifts = gifts.filter((gift) => gift !== value);
+  const handleRemove = (giftToRemove: GiftType) => {
+    const newGifts = gifts.filter(({ gift }) => gift !== giftToRemove.gift);
 
     setTyping(true);
-    deleteWord(value, [`- ${value}`]);
+    deleteWord(giftToRemove.id, [`- ${giftToRemove.gift}`]);
 
-    const timeWriting = value.length * 150;
+    const timeWriting = giftToRemove.gift.length * 150;
 
     setTimeout(() => {
       setTyping(false);
@@ -35,11 +37,11 @@ const Day7 = () => {
   useEffect(() => {
     if (newGiftValue && lastLenght < gifts.length && !isRemovingAll) {
       setTyping(true);
-      type(newGiftValue, [`- ${newGiftValue}`]);
+      type(newGiftValue.id, [`- ${newGiftValue.gift}`]);
 
-      const timeWriting = newGiftValue.length * 150;
+      const timeWriting = newGiftValue.gift.length * 150;
 
-      setValue("");
+      setValue(null);
 
       setTimeout(() => setTyping(false), timeWriting);
     }
@@ -60,18 +62,6 @@ const Day7 = () => {
     }
   }, [isTyping]);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    return setValue(value);
-  };
-
-  const handleKeyDown = (e: { key: string }) => {
-    if (e.key === "Enter") {
-      addGift();
-    }
-  };
-
   const handleRemoveAll = () => {
     setIsRemovingAll(true);
   };
@@ -79,43 +69,38 @@ const Day7 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Dia 7 | Adviency Challenge</title>
+        <title>FRAN | Dia 8 | Adviency Challenge</title>
         <meta content="Adviency Challenge" name="description" />
         <link href="/favicon.ico" rel="icon" />
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-          Dia 7: Tuvimos algunos reportes de regalos vacíos o repetidos, asegurmosnos que la gente solo pueda agregar un regalo si escribió
-          algo y si ese regalo no está ya en la lista!
+          Dia 8: Cometimos un error el día anterior, la gente quiere agregar regalos repetidos para regalarselos a diferentes personas,
+          agreguemos un campo al lado del input de texto para poner la cantidad de unidades del regalo que deberíamos comprar.
         </h1>
       </section>
+      <Modal2023 isOpen={isOpen} onAdd={addGift} onCancel={() => setIsModalOpen(false)} />
 
       <div className={`p-8 pt-0 min-h-[calc(100vh-245px)] bg-[url('/christmas2023.webp')] bg-cover bg-no-repeat`}>
         <div className="pb-16 flex-1 flex flex-col justify-center items-center">
           <p className="text-4xl mb-8 mt-20">Gifts:</p>
-          <div className="p-6 border rounded-lg border-whit bg-slate-700 w-96 flex flex-col gap-4">
+          <div className="p-6 border rounded-lg border-white bg-glass w-96 flex flex-col gap-4">
             <div className="flex gap-4">
-              <input
-                ref={inputRef as any}
-                className="w-full px-2 rounded-md"
-                disabled={isTyping}
-                value={newGiftValue as string}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-              />
               <button
-                className="py-1 px-4 rounded-lg cursor-pointer bg-green-600 hover:bg-green-700 disabled:bg-green-800 disabled:hover:bg-green-800 disabled:cursor-not-allowed disabled:text-gray-400"
-                disabled={!newGiftValue}
-                onClick={addGift}
+                className="w-full py-1 px-4 rounded-lg cursor-pointer bg-green-700 hover:bg-green-800 disabled:bg-green-800 disabled:hover:bg-green-800 disabled:cursor-not-allowed disabled:text-gray-400"
+                onClick={() => setIsModalOpen(true)}
               >
                 Add
               </button>
             </div>
             <ul className="flex justify-center flex-col gap-1">
               {gifts?.map((gift) => (
-                <div key={gift} className="flex justify-between items-center">
-                  <li id={gift} />
+                <div key={gift.id} className="flex justify-between items-center">
+                  <div className="flex items-center">
+                    <li id={gift.id} />
+                    {!isTyping && <p className="ml-2 text-xs">({gift.amount})</p>}
+                  </div>
                   {!isTyping && (
                     <button className="py-1 px-2 rounded-md border border-white-50 hover:bg-white-50" onClick={() => handleRemove(gift)}>
                       Remove
@@ -141,4 +126,4 @@ const Day7 = () => {
   );
 };
 
-export default Day7;
+export default Day8;
