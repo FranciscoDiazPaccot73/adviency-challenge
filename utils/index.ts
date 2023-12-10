@@ -34,7 +34,7 @@ const challengeByDay: ChallengeByDayRecord = {
 const templateFile = (user: string, day: number) =>
   `import Head from 'next/head';
 
-  const Day${day} = () => (
+  const Day${day} = () => {return(
     <>
       <Head>
         <title>${user.toUpperCase()} | Dia ${day} | Adviency Challenge</title>
@@ -48,7 +48,7 @@ const templateFile = (user: string, day: number) =>
         </h1>
       </section>
     </>
-  );
+  )};
   export default Day${day};
   `;
 

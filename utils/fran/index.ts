@@ -17,6 +17,14 @@ export const getTotal = (elems: ElementType[]) => {
   return total;
 };
 
+export const setTextContent = (id: string, value: string) => {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.textContent = value;
+  }
+};
+
 export const type = (id: string, words: string[]) => {
   const i = 0;
   let j = 0;
