@@ -1,57 +1,58 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast, {Toaster} from 'react-hot-toast';
 
-const Day9 = () => {
+  const Day10 = () => {
 
-  const [input, setInput] = useState('');
-  const [gifts, setGifts] = useState([]);
-  const [count, setCount] = useState(1);
+    const [input, setInput] = useState('');
+    const [gifts, setGifts] = useState([]);
+    const [count, setCount] = useState(1);
+    const [image, setImage] = useState('');
 
-  useEffect(()=>{
-    const storedGift = JSON.parse(localStorage.getItem("gifts"));
-    if(storedGift){
-      setGifts(storedGift)
+    useEffect(()=>{
+      const storedGift = JSON.parse(localStorage.getItem('gifts'));
+      if(storedGift){
+        setGifts(storedGift)  
+      }
+    }, [])
+
+    const addGift = () => {
+      if(gifts.find((item)=> item.title === input)){
+        toast.error('Ya has agregado ese regalo', {
+          style: {
+            background: 'red',
+            color: 'white'
+          }
+        })
+      }
+      else{
+        const newGift = {id: input, title: input, qty: count, image: image};
+        const newGifts = ([newGift, ...gifts]);
+        setGifts(newGifts);
+        setInput('');
+        setCount(1);
+        setImage('')
+        localStorage.setItem('gifts', JSON.stringify(newGifts))
+      }
     }
-  }, [])
-
-  const addGift = () => {
-    if (gifts.find((item) => item.title === input)) {
-      toast.error("Ya has agregado ese regalo", {
-        style: {
-          background: 'red',
-          color: 'white'
-        }
-      })
+    
+    const deleteGift = (elem) => {
+      const giftToDelete = gifts.filter((item)=> item.id !== elem.id);
+      setGifts(giftToDelete);
+      localStorage.setItem('gifts', JSON.stringify(giftToDelete))
     }
-    else {
-      const newGift = { id: input, title: input, qty: count };
-      const newGifts = ([newGift, ...gifts]);
-      setGifts(newGifts);
-      setInput('');
-      setCount(1);
-      localStorage.setItem('gifts', JSON.stringify(newGifts));
-    }
-  }
 
-  const deleteGift = (elem) => {
-    const giftToDelete = gifts.filter((item) => item.id !== elem.id)
-    setGifts(giftToDelete)
-    localStorage.setItem('gifts', JSON.stringify(giftToDelete))
-  }
-
-
-  return (
+    return(
     <>
       <Head>
-        <title>JOEL | Dia 9 | Adviency Challenge</title>
+        <title>JOEL | Dia 10 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-          Dia 9: La gente está triste por que al cerrar la aplicación pierde todos sus regalos 😢. Usemos localStorage para guardar los regalos en el dispositivo del usuario y cargarlos cuando vuelve!
+          Dia 10: Las palabras dicen mucho pero las imágenes más! Agreguemos un campo donde podamos pegar un link de imágen para cada regalo y mostremoslo en la lista.
         </h1>
       </section>
 
@@ -60,12 +61,17 @@ const Day9 = () => {
           <p className='font-title p-10 text-3xl '>Lista de regalos</p>
           <div className='max-w-[100%] flex justify-evenly'>
             <Toaster />
-            <input className='p-2 w-4/6 rounded-lg'
+            <input className='p-2 w-[35%] rounded-lg'
               type="text"
               value={input}
               placeholder='Agrega un regalo 🎅'
               onChange={(e) => setInput(e.target.value)} />
-            <input className='p-1 w-2/12 rounded-lg'
+              <input className='p-2 w-[35%] rounded-lg'
+              type="text"
+              value={image}
+              placeholder='URL imagen'
+              onChange={(e) => setImage(e.target.value)} />
+            <input className='p-1 w-[10%] rounded-lg'
               type="number"
               min={1}
               value={count}
@@ -84,7 +90,10 @@ const Day9 = () => {
               gifts.map((gift) => {
                 return <li className='flex items-center justify-between bg-gray-800/80 rounded-lg m-2 p-2'
                   key={gift.id}>
-                  <div className='flex justify-between w-5/6'>
+                  <div className='flex justify-between w-5/6 items-center'>
+                    <img className='max-w-[10%]'
+                    src={gift.image === ''? '/cat-christmas.jpeg' : gift.image} 
+                    alt='Foto del regalo'/>
                     <p>{gift.title}</p>
                     <p className='opacity-50'>x {gift.qty}</p>
                   </div>
@@ -102,7 +111,6 @@ const Day9 = () => {
         </div>
       </section>
     </>
-  )
-}
-  ;
-export default Day9;
+  )};
+  export default Day10;
+  
