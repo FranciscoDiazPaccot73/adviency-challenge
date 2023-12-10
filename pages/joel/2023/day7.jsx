@@ -1,33 +1,38 @@
 import Head from 'next/head';
 import { useState } from 'react';
 
-  const Day5 = () => {
+  const Day7 = () => {
 
     const [input, setInput] = useState('');
     const [gifts, setGifts] = useState([]);
 
     const addGift = () => {
-      const newGift = ([input, ...gifts]);
-      setGifts(newGift);
-      setInput('')
+      if(gifts.includes(input)){
+        console.log('error')
+      }
+      else{
+        const newGift = ([input, ...gifts])
+        setGifts(newGift);
+        setInput('');
+      }
     }
 
     const deleteGift = (elem) => {
-      const giftToDelete = gifts.filter((item) => item !== elem);
-      setGifts(giftToDelete);
+      const giftToDelete = gifts.filter((item)=> item !== elem);
+      setGifts(giftToDelete)
     }
 
     return(
-      <>
+          <>
       <Head>
-        <title>JOEL | Dia 5 | Adviency Challenge</title>
+        <title>JOEL | Dia 7 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-          Dia 5: La gente está muy indecisa y agrega muchos regalos y después los debe borrar de a uno! Agreguemos un botón para eliminar todos los regalos a la vez!
+          Dia 7: Tuvimos algunos reportes de regalos vacíos o repetidos, asegurmosnos que la gente solo pueda agregar un regalo si escribió algo y si ese regalo no está ya en la lista!
         </h1>
       </section>
 
@@ -71,5 +76,5 @@ import { useState } from 'react';
   }
 
   ;
-  export default Day5;
+  export default Day7;
   
