@@ -88,6 +88,14 @@ export const Modal2023: FC<Modal2023Props> = ({ isOpen, onCancel, onAdd }) => {
             </div>
           </div>
           <div className="flex gap-4 flex-col items-center md:items-baseline md:flex-row">
+            <input
+              className="p-2 rounded-md"
+              name="url"
+              placeholder="Image URL"
+              type="text"
+              value={values.imageUrl}
+              onChange={handleInputChange}
+            />
             <button
               className={`rounded-sm w-4 h-4 flex items-center justify-center ${
                 values.amount === 1 ? "bg-red-900 text-slate-300" : "bg-red-700 hover:bg-green-800"
