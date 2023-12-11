@@ -48,8 +48,6 @@ const Day11 = () => {
     setModal(!modal)
   }
 
-  console.log(modal);
-
   return (
     <>
       <Head>
