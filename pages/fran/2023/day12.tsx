@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-import Head from 'next/head';
-
-  const Day10 = () => {return(
-    <>
-      <Head>
-        <title>FRAN | Dia 10 | Adviency Challenge</title>
-        <meta name="description" content="Adviency Challenge" />
-        <link rel="icon" href="/favicon.ico" />
-=======
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -15,7 +5,7 @@ import { type, deleteWord, setTextContent } from "../../../utils/fran";
 import { Modal2023 } from "../../../components/fran/Modal2023";
 import { GiftType } from "../../../components/fran/interfaces";
 
-const Day10 = () => {
+const Day12 = () => {
   const [gifts, setgifts] = useState<GiftType[]>([]);
   const [newGiftValue, setValue] = useState<GiftType | null>();
   const [isTyping, setTyping] = useState<boolean>(false);
@@ -100,25 +90,14 @@ const Day10 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Dia 10 | Adviency Challenge</title>
+        <title>FRAN | Dia 12 | Adviency Challenge</title>
         <meta content="Adviency Challenge" name="description" />
         <link href="/favicon.ico" rel="icon" />
->>>>>>> 8ae5aeab03a4be5e64996d82c95592eb59d543cf
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-<<<<<<< HEAD
-          Dia 10: Las palabras dicen mucho pero las imágenes más! Agreguemos un campo donde podamos pegar un link de imágen para cada regalo y mostremoslo en la lista.
-        </h1>
-      </section>
-    </>
-  )};
-  export default Day10;
-  
-=======
-          Dia 10: Las palabras dicen mucho pero las imágenes más! Agreguemos un campo donde podamos pegar un link de imágen para cada regalo
-          y mostremoslo en la lista.
+          Dia 12: La gente no recuerda que regalo corresponde a cada quien, agreguemos un campo para destinatario y mostremoslo.
         </h1>
       </section>
       <Modal2023 isOpen={isOpen} onAdd={addGift} onCancel={() => setIsModalOpen(false)} />
@@ -140,7 +119,8 @@ const Day10 = () => {
                   <div className="flex items-center gap-2">
                     <Image alt={gift.gift} height={32} src={gift.imageUrl || "/default-image.png"} width={32} />
                     <li id={gift.id} />
-                    {!isTyping && <p className="ml-2 text-xs">({gift.amount})</p>}
+                    {!isTyping && <p className="ml-2 text-xs">({gift.receiver})</p>}
+                    {!isTyping && <p className="ml-2 text-xs">({gift.amount} u)</p>}
                   </div>
                   {!isTyping && (
                     <button className="py-1 px-2 rounded-md border border-white-50 hover:bg-white-50" onClick={() => handleRemove(gift)}>
@@ -167,5 +147,4 @@ const Day10 = () => {
   );
 };
 
-export default Day10;
->>>>>>> 8ae5aeab03a4be5e64996d82c95592eb59d543cf
+export default Day12;

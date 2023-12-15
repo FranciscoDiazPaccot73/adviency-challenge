@@ -34,7 +34,7 @@ export const Modal2023: FC<Modal2023Props> = ({ isOpen, onCancel, onAdd }) => {
   };
 
   const handleAddItem = () => {
-    if (values.gift !== "") {
+    if (values.gift !== "" && values.receiver !== "") {
       onAdd(values);
       resetInputs();
       onCancel();
@@ -86,8 +86,24 @@ export const Modal2023: FC<Modal2023Props> = ({ isOpen, onCancel, onAdd }) => {
               </div>
               {inputHasError ? <p className="absolute left-2 text-sm text-red-600">Ya cargaste este regalo :(</p> : null}
             </div>
+            <input
+              className="p-2 rounded-md"
+              name="receiver"
+              placeholder="Destinatario"
+              type="text"
+              value={values.receiver}
+              onChange={handleInputChange}
+            />
           </div>
           <div className="flex gap-4 flex-col items-center md:items-baseline md:flex-row">
+            <input
+              className="p-2 rounded-md"
+              name="url"
+              placeholder="Image URL"
+              type="text"
+              value={values.imageUrl}
+              onChange={handleInputChange}
+            />
             <button
               className={`rounded-sm w-4 h-4 flex items-center justify-center ${
                 values.amount === 1 ? "bg-red-900 text-slate-300" : "bg-red-700 hover:bg-green-800"
@@ -107,15 +123,12 @@ export const Modal2023: FC<Modal2023Props> = ({ isOpen, onCancel, onAdd }) => {
           </div>
         </div>
         <div className="relative mt-10 w-full flex gap-6">
-          <button
-            className="font-semibold rounded-lg w-1/2 hover:text-red-800 hover:bg-red-200 hover:border hover:border-red-700"
-            onClick={handleCancel}
-          >
+          <button className="font-semibold rounded-lg w-1/2 hover:border hover:border-red-700" onClick={handleCancel}>
             Cancel
           </button>
           <button
             className={`font-semibold rounded-lg cursor-pointer bg-green-700 hover:bg-green-800 disabled:bg-green-800 disabled:hover:bg-green-900 disabled:cursor-not-allowed disabled:text-gray-400 px-4 w-1/2 h-10 `}
-            disabled={values.gift === ""}
+            disabled={!values.gift || !values.receiver}
             onClick={handleAddItem}
           >
             Add
