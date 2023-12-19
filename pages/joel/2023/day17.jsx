@@ -1,17 +1,18 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
-import toast, {Toaster} from 'react-hot-toast';
+import { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 
-const Day13 = () => {
+const Day17 = () => {
 
   const [input, setInput] = useState('');
   const [count, setCount] = useState(1);
+  const [mount, setMount] = useState(0)
   const [gifts, setGifts] = useState([]);
   const [image, setImage] = useState('');
   const [modal, setModal] = useState(false);
   const [addressee, setAddressee] = useState('');
   const [editing, setEditing] = useState(false);
-  const [editingGift, setEditingGift] = useState(null)
+  const [editingGift, setEditingGift] = useState(null);
 
   useEffect(() => {
     const storedGift = JSON.parse(localStorage.getItem('gifts'));
@@ -23,37 +24,36 @@ const Day13 = () => {
   const addGift = () => {
     if (editing) {
       const updatedGifts = gifts.map((item) =>
-        item.id === editingGift.id ? { ...item, title: input, addressee, qty: count, image } : item
-      );
-      setGifts(updatedGifts);
-      setEditing(false);
-    } else {
+        item.id === editingGift.id ? { ...item, title: input, qty: count, mount, addressee, image } : item);
+      setEditing(false)
+      setGifts(updatedGifts)
+    }
+    else {
       if (gifts.find((item) => item.title === input)) {
-        toast.error("Ya has agregado ese regalo", {
+        toast.error("Ya has agregado este regalo", {
           style: {
             background: 'red',
             color: 'white'
           }
         });
       } else {
-        const newGift = { id: input, title: input, addressee, qty: count, image };
+        const newGift = { id: input, title: input, mount, addressee, image, qty: count };
         const newGifts = [newGift, ...gifts];
         setGifts(newGifts);
-        localStorage.setItem('gifts', JSON.stringify(newGifts));
-        setModal(!modal);
+        setModal(!modal)
+        localStorage.setItem('gifts', JSON.stringify(newGifts))
       }
     }
     setCount(1);
     setInput('');
     setImage('');
-    setAddressee('');
-    setEditingGift(null);
+    setAddressee('')
+    setEditingGift(null)
     setModal(!modal)
-  };
+  }
 
-
-  const deleteGift = (item) => {
-    const giftToDelete = gifts.filter((elem) => elem.id !== item.id);
+  const deleteGift = (elem) => {
+    const giftToDelete = gifts.filter((item) => item.id !== elem.id);
     setGifts(giftToDelete);
     localStorage.setItem('gifts', JSON.stringify(giftToDelete))
   }
@@ -65,23 +65,28 @@ const Day13 = () => {
     setAddressee(gift.addressee);
     setCount(gift.qty);
     setImage(gift.image);
-    setModal(true);
-  };
+    setModal(!modal);
+  }
+
+  const randomly = () => {
+    const stock = ['Medias', 'Ak-47', 'Papas Dia%', 'Katana', 'Renault 12', 'Laburo'];
+    const randomGift = Math.floor(Math.random() * stock.length);
+    setInput(stock[randomGift])
+  }
 
   return (
     <>
       <Head>
-        <title>JOEL | Dia 13 | Adviency Challenge</title>
+        <title>JOEL | Dia 17 | Adviency Challenge</title>
         <meta name="description" content="Adviency Challenge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-          Dia 13: Nuestros usuarios se ponen muy contentos y se equivocan al cargar regalos, agreguemos un botón editar que nos permita cambiar regalos ya agregados.
+          Dia 17: Nos olvidamos de agregar un campo de precio para nuestros regalos! Aseguremosnos de mostrar el precio correcto tomando en cuenta la cantidad de unidades del regalo.
         </h1>
       </section>
-
 
       <Toaster />
 
@@ -99,11 +104,20 @@ const Day13 = () => {
                 <div className='flex flex-col items-center'>
                   <button className='text-2xl text-red-700 bg-transparent font-medium'
                     onClick={() => setModal(!modal)}>x</button>
-                  <input className='p-2 w-[90%] rounded-lg m-2'
-                    type="text"
-                    value={input}
-                    placeholder='Agrega un regalo 🎅'
-                    onChange={(e) => setInput(e.target.value)} />
+                  <div className='flex items-center justify-between w-[90%]'>
+                    <input className='p-2 rounded-lg my-2 w-5/6'
+                      type="text"
+                      value={input}
+                      placeholder='Agrega un regalo 🎅'
+                      onChange={(e) => setInput(e.target.value)} />
+                    <button className='bg-blue-600 p-2 rounded-lg'
+                      onClick={randomly}>✨</button>
+                  </div>
+                  <input className='p-1 w-2/6 rounded-lg my-2'
+                    type="number"
+                    value={mount}
+                    placeholder='$100'
+                    onChange={(e) => setMount(e.target.value)} />
                   <input className='p-2 w-[90%] rounded-lg m-2'
                     type="text"
                     value={image}
@@ -148,11 +162,13 @@ const Day13 = () => {
                     </div>
                   </div>
                   <div className='flex justify-end w-3/6'>
-                    <p className='mx-2 text-gray-400'>x {gift.qty}</p>
+                    <span className='text-gray-400'>x {gift.qty}</span>
+                    <span className='mx-3 text-gray-400' 
+                    >${gift.mount * gift.qty}</span>
                     <button className='text-xl text-center bg-red-600 px-2 rounded-lg'
                       onClick={() => deleteGift(gift)}>🗑</button>
                     <button className='text-xl mx-1 text-center bg-blue-600 px-1 rounded-lg' onClick={() => editGift(gift)}>
-                      ✏️
+                      🖍
                     </button>
                   </div>
 
@@ -172,4 +188,4 @@ const Day13 = () => {
     </>
   )
 };
-export default Day13;
+export default Day17;
