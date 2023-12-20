@@ -47,9 +47,10 @@ const Day17 = () => {
     setCount(1);
     setInput('');
     setImage('');
-    setAddressee('')
-    setEditingGift(null)
-    setModal(!modal)
+    setAddressee('');
+    setMount(0);
+    setEditingGift(null);
+    setModal(!modal);
   }
 
   const deleteGift = (elem) => {
