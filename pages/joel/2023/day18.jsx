@@ -6,7 +6,7 @@ const Day18 = () => {
 
   const [input, setInput] = useState('');
   const [count, setCount] = useState(1);
-  const [mount, setMount] = useState(0)
+  const [mount, setMount] = useState(null)
   const [gifts, setGifts] = useState([]);
   const [image, setImage] = useState('');
   const [modal, setModal] = useState(false);
@@ -19,15 +19,19 @@ const Day18 = () => {
     const storedGift = JSON.parse(localStorage.getItem('gifts'));
     if (storedGift) {
       setGifts(storedGift)
+      updateTotal(storedGift)
     }
+  }, []);
 
-    const calculatedTotal = storedGift.reduce((acc, gift) => {
-      return acc + gift.qty * gift.mount
-    }, 0)
-    setTotal(calculatedTotal)
-  }, [])
+  
+  const updateTotal = (giftsArray) => {
+    const calculatedTotal = giftsArray.reduce((acc, gift) => {
+      return acc + gift.qty * gift.mount;
+    }, 0);
+    setTotal(calculatedTotal);
+  };
 
-  const addGift = (gift) => {
+  const addGift = () => {
     if (editing) {
       const updatedGifts = gifts.map((item) =>
         item.id === editingGift.id ? { ...item, title: input, qty: count, addressee, image, mount } : item);
@@ -45,11 +49,9 @@ const Day18 = () => {
       } else {
         const newGift = { id: input, title: input, addressee, qty: count, mount, image };
         const newGifts = ([newGift, ...gifts]);
-        const calculatedTotal = gifts.reduce((acc, gift) => {
-          return acc + gift.qty * gift.mount
-        }, 0);
+        setTotal(total + newGift.qty * newGift.mount)
+        setEditing(false)
         setGifts(newGifts);
-        setTotal(calculatedTotal)
         setModal(!modal)
         localStorage.setItem('gifts', JSON.stringify(newGifts))
       }
@@ -66,7 +68,17 @@ const Day18 = () => {
   const deleteGift = (item) => {
     const giftToDelete = gifts.filter((elem) => elem.id !== item.id)
     setGifts(giftToDelete);
-    localStorage.setItem('gift', JSON.stringify(giftToDelete))
+    localStorage.setItem('gift', JSON.stringify(giftToDelete));
+    updateTotal(giftToDelete);
+  }
+
+  const close = () => {
+    setModal(!modal)
+    setInput('');
+    setAddressee('');
+    setCount(1);
+    setMount(null);
+    setImage('')
   }
 
   const editGift = (gift) => {
@@ -115,7 +127,7 @@ const Day18 = () => {
               <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black p-2 rounded-lg min-h-[30%] min-w-[30%]'>
                 <div className='flex flex-col items-center'>
                   <button className='text-2xl text-red-700 bg-transparent font-medium'
-                    onClick={() => setModal(!modal)}>x</button>
+                    onClick={() => close()}>x</button>
                   <div className='flex items-center justify-between w-[90%]'>
                     <input className='p-2 rounded-lg my-2 w-5/6'
                       type="text"
@@ -189,12 +201,14 @@ const Day18 = () => {
             }
           </ul>
 
+          
+          <span className='bg-gray-800/80 rounded-lg m-2 p-2'>Total ${total}</span>
+
           <button
             className='bg-red-600 rounded-xl m-2 p-2 w-5/6'
             onClick={() => setGifts([])}>
             Borrar todo
           </button>
-          <p>Total {total}</p>
 
         </div>
       </section>
