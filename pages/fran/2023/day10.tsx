@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import Head from 'next/head';
+
+  const Day10 = () => {return(
+    <>
+      <Head>
+        <title>FRAN | Dia 10 | Adviency Challenge</title>
+        <meta name="description" content="Adviency Challenge" />
+        <link rel="icon" href="/favicon.ico" />
+=======
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -93,10 +103,20 @@ const Day10 = () => {
         <title>FRAN | Dia 10 | Adviency Challenge</title>
         <meta content="Adviency Challenge" name="description" />
         <link href="/favicon.ico" rel="icon" />
+>>>>>>> 8ae5aeab03a4be5e64996d82c95592eb59d543cf
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
+<<<<<<< HEAD
+          Dia 10: Las palabras dicen mucho pero las imágenes más! Agreguemos un campo donde podamos pegar un link de imágen para cada regalo y mostremoslo en la lista.
+        </h1>
+      </section>
+    </>
+  )};
+  export default Day10;
+  
+=======
           Dia 10: Las palabras dicen mucho pero las imágenes más! Agreguemos un campo donde podamos pegar un link de imágen para cada regalo
           y mostremoslo en la lista.
         </h1>
@@ -148,3 +168,4 @@ const Day10 = () => {
 };
 
 export default Day10;
+>>>>>>> 8ae5aeab03a4be5e64996d82c95592eb59d543cf
