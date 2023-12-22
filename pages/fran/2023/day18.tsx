@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { type, deleteWord, setTextContent } from "../../../utils/fran";
 import { Modal2023 } from "../../../components/fran/Modal2023";
 import { GiftType } from "../../../components/fran/interfaces";
