@@ -11,7 +11,7 @@ type PreviewModalType = {
   gift?: GiftType;
 };
 
-const Day21 = () => {
+const Day22 = () => {
   const [gifts, setgifts] = useState<GiftType[]>([]);
   const [editingItem, setEditingItem] = useState<GiftType | null>();
   const [newGiftValue, setValue] = useState<GiftType | null>();
@@ -133,15 +133,15 @@ const Day21 = () => {
   return (
     <>
       <Head>
-        <title>FRAN | Dia 21 | Adviency Challenge</title>
+        <title>FRAN | Dia 22 | Adviency Challenge</title>
         <meta content="Adviency Challenge" name="description" />
         <link href="/favicon.ico" rel="icon" />
       </Head>
       {/* Challenge del dia */}
       <section className="pt-20 pb-12 border-b border-b-slate-500 h-[245px]">
         <h1 className="font-bold max-w-3xl mx-auto text-xl">
-          Dia 21: Fuimos a comprar los regalos pero no teniamos datos en el celular, no queremos que le pase a alguien más, agreguemos un
-          botón de imprimir a esa lista.
+          Dia 22: Levantemos el espíritu navideño agregando un sonido navideño de fondo. No tan alto, tiene que estar deshabilitado por
+          defecto y el usuario puede habilitarlo.
         </h1>
       </section>
       <Modal2023 editingItem={editingItem} isOpen={isOpen} onAdd={addGift} onCancel={handleCloseModal} onEdit={handleEditGift} />
@@ -248,4 +248,4 @@ const Day21 = () => {
   );
 };
 
-export default Day21;
+export default Day22;
